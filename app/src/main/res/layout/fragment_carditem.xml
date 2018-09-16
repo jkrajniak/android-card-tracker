@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <Button
@@ -9,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
-        android:text="Button" />
+        android:text="Button"
+        android:textAlignment="viewStart" />
 
     <TextView
         android:id="@+id/numTransaction"
@@ -17,5 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:layout_weight="0.5"
+        android:textAlignment="textStart"
         android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 import pl.jkrajniak.cardtracker.model.AppDatabase;
 import pl.jkrajniak.cardtracker.model.Card;
 
@@ -41,7 +43,7 @@ public class CardRespository extends AndroidViewModel {
         return appDatabase.daoCard().getCard(id);
     }
 
-    public LiveData<Card> getCards() {
+    public LiveData<List<Card>> getCards() {
         return appDatabase.daoCard().getAll();
     }
 }

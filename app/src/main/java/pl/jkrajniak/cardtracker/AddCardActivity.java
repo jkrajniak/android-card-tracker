@@ -30,14 +30,14 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         cardRespository.insertCard(
                 cardNameText.getText().toString(),
                 Integer.parseInt(numTransactionText.getText().toString()));
-        Snackbar.make(findViewById(R.id.linearLayout), "Card saved!", Snackbar.LENGTH_LONG);
+        Snackbar.make(findViewById(R.id.addCardLayout), "Card saved!", Snackbar.LENGTH_LONG).show();
+        finish();
     };
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveCardBtn: {
                 saveCard();
-                finish();
                 break;
             }
         }
