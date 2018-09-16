@@ -24,7 +24,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void saveCard() {
-        CardRespository cardRespository = new CardRespository(getApplicationContext());
+        CardRespository cardRespository = new CardRespository(getApplication());
         EditText cardNameText = findViewById(R.id.cardName);
         EditText numTransactionText = findViewById(R.id.numTransaction);
         cardRespository.insertCard(

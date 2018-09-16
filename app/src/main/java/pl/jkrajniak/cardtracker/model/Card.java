@@ -1,11 +1,9 @@
 package pl.jkrajniak.cardtracker.model;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 @Entity
 public class Card {
@@ -27,8 +25,11 @@ public class Card {
         this.requiredNumTransactions = numTransaction;
     }
 
-    @Ignore
-    public Card() { }
+    public Card() {
+        this.name = "";
+        this.requiredNumTransactions = 0;
+        this.currentNumTransactions = 0;
+    }
 
     public int getUid() {
         return uid;
