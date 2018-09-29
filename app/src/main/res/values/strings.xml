@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">Card transactions tracker</string>
+    <string name="app_name">Transaction tracker</string>
     <string name="title_activity_add_card">Add card</string>
+    <string name="add_card">Add card</string>
+    <string name="settings">Settings</string>
 </resources>

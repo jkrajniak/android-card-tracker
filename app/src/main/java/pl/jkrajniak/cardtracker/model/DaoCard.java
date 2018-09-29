@@ -22,7 +22,7 @@ public interface DaoCard {
     void save(Card card);
 
     @Update
-    void update(Card card);
+    void updates(Card... cards);
 
     @Delete
     void delete(Card card);

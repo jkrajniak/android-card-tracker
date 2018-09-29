@@ -13,37 +13,57 @@ import java.util.List;
 import pl.jkrajniak.cardtracker.model.AppDatabase;
 import pl.jkrajniak.cardtracker.model.Card;
 
-public class CardRespository extends AndroidViewModel {
-    private String dbName = "card-db";
-
+public class CardRespository {
+    private DaoCard daoCard;
+    private LiveData<List<Card>> allCards;
     private AppDatabase appDatabase;
-    public CardRespository(@NonNull Application app) {
-        super(app);
-        appDatabase = Room.databaseBuilder(
-                app.getApplicationContext(),
-                AppDatabase.class, dbName).build();
+
+    public CardRespository(Application app) {
+        AppDatabase appDatabase = AppDatabase.getDatabase(app);
+        daoCard = appDatabase.daoCard();
+        allCards = daoCard.getAll();
     }
 
-    public void insertCard(String cardName, int numberOfTransactions) {
-        Card card = new Card();
-        card.setName(cardName);
-        card.setCurrentNumTransactions(0);
-        card.setRequiredNumTransactions(numberOfTransactions);
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                appDatabase.daoCard().insertAll(card);
-                return null;
-            }
-        }.execute();
+    LiveData<List<Card>> getAllCards() {
+        return allCards;
     }
 
-    public LiveData<Card> getCard(int id) {
-        return appDatabase.daoCard().getCard(id);
+    public void insert (Card card) {
+        new insertAsyncTask(daoCard).execute(card);
     }
 
-    public LiveData<List<Card>> getCards() {
-        return appDatabase.daoCard().getAll();
+    private static class insertAsyncTask extends AsyncTask<Card, Void, Void> {
+
+        private DaoCard asyncDaoCard;
+
+        insertAsyncTask(DaoCard dao) {
+            asyncDaoCard = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Card... cards) {
+            asyncDaoCard.insertAll(cards);
+            return null;
+        }
     }
+
+    public void update(Card card) {
+        new updateAsyncTask(daoCard).execute(card);
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Card, Void, Void> {
+
+        private final DaoCard asyncDaoCard;
+
+        updateAsyncTask(DaoCard daoCard) {
+            asyncDaoCard = daoCard;
+        }
+
+        @Override
+        protected Void doInBackground(Card... cards) {
+            asyncDaoCard.updates(cards);
+            return null;
+        }
+    }
+
 }

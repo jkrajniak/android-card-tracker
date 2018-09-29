@@ -1,5 +1,6 @@
 package pl.jkrajniak.cardtracker;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,11 +21,14 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
 
     private List<Card> data;
     private final LayoutInflater layoutInflater;
-    private final Context context;
+    private OnItemClickListener listener;
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int position);
+    }
 
-    public CardsAdapter(Context context) {
+    public CardsAdapter(OnItemClickListener listener, Context context) {
         this.data = new ArrayList<>();
-        this.context = context;
+        this.listener = listener;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -37,6 +42,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
     @Override
     public void onBindViewHolder(@NonNull CardsAdapter.CardViewHolder holder, int position) {
         holder.bind(data.get(position));
+        holder.cardName.setOnClickListener(v -> listener.onItemClick(v, position));
     }
 
     @Override
@@ -51,25 +57,29 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
         } else {
             data = newData;
         }
+        notifyDataSetChanged();
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
-        private Button btnCardName;
+        private Button cardName;
         private TextView tvNumTransaction;
 
         public CardViewHolder(View itemView) {
             super(itemView);
 
-            btnCardName = itemView.findViewById(R.id.cardNameBtn);
-            tvNumTransaction = itemView.findViewById(R.id.numTransaction);
+            cardName = itemView.findViewById(R.id.cardNameBtn);
+            tvNumTransaction = itemView.findViewById(R.id.numTrasactions);
         }
 
         void bind(final Card card) {
             if (card != null) {
-                btnCardName.setText(card.getName());
                 tvNumTransaction.setText(
                         card.getCurrentNumTransactions() + "/" + card.getRequiredNumTransactions()
-                );
+                                + " (left " + card.getDaysLeft() + " days)");
+                cardName.setText(card.getName());
+                if (card.getCurrentNumTransactions() >= card.getRequiredNumTransactions()) {
+                    cardName.setEnabled(false);
+                }
             }
         }
     }
