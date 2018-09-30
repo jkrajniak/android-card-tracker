@@ -1,17 +1,10 @@
 package pl.jkrajniak.cardtracker.model;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Room;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import java.util.List;
-
-import pl.jkrajniak.cardtracker.model.AppDatabase;
-import pl.jkrajniak.cardtracker.model.Card;
 
 public class CardRespository {
     private DaoCard daoCard;
@@ -24,12 +17,32 @@ public class CardRespository {
         allCards = daoCard.getAll();
     }
 
-    LiveData<List<Card>> getAllCards() {
+    public LiveData<List<Card>> getAllCards() {
         return allCards;
+    }
+
+    public LiveData<Card> getCard(int uid) {
+        return daoCard.getCard(uid);
     }
 
     public void insert (Card card) {
         new insertAsyncTask(daoCard).execute(card);
+    }
+
+    public void delete (Card card) {
+        new deleteAsyncTask(daoCard).execute(card);
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Card, Void, Void> {
+        private DaoCard asyncDaoCard;
+
+        deleteAsyncTask(DaoCard dao) { asyncDaoCard = dao; }
+
+        @Override
+        protected Void doInBackground(Card... cards) {
+            asyncDaoCard.deletes(cards);
+            return null;
+        }
     }
 
     private static class insertAsyncTask extends AsyncTask<Card, Void, Void> {

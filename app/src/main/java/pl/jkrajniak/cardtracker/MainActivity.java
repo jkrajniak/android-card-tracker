@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
 
         Intent addCardIntent = new Intent(MainActivity.this, AddCardActivity.class);
 
-
         cardsAdapter = new CardsAdapter(this, this);
         cardViewModel = ViewModelProviders.of(this).get(CardViewModel.class);
         cardViewModel.getAllCards().observe(this, new Observer<List<Card>>() {
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                showSettings();
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.action_add_card:
                 startActivity(new Intent(this, AddCardActivity.class));

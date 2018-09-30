@@ -5,12 +5,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 @Entity
-public class Card {
+public class Card implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int uid;
@@ -88,6 +88,6 @@ public class Card {
         thatDay.set(Calendar.MONTH, (today.get(Calendar.MONTH)+1) % 12);
         long diffMillis = thatDay.getTimeInMillis() - today.getTimeInMillis();
         long diffDays = diffMillis / (24 * 60 * 60 * 1000);
-        return diffDays - 1;
+        return diffDays;
     }
 }

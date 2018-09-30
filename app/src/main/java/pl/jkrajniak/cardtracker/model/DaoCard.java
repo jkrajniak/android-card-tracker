@@ -27,6 +27,12 @@ public interface DaoCard {
     @Delete
     void delete(Card card);
 
+    @Delete
+    void deletes(Card... cards);
+
     @Query("SELECT  * FROM card WHERE uid = :id")
     LiveData<Card> getCard(int id);
+
+    @Query("SELECT * FROM card WHERE uid = :id")
+    Card getCardInstance(int id);
 }

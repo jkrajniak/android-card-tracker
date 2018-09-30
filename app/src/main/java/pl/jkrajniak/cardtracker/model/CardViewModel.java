@@ -34,9 +34,9 @@ public class CardViewModel extends AndroidViewModel{
         int currentNumTransactions = card.getCurrentNumTransactions();
         int expectedNumTransactions = card.getRequiredNumTransactions();
         int newNumTransactions = currentNumTransactions + 1;
-        if (newNumTransactions <= expectedNumTransactions) {
+//        if (newNumTransactions <= expectedNumTransactions) {
             card.setCurrentNumTransactions(newNumTransactions);
             cardRespository.update(card);
-        }
+//        }
     }
 }
