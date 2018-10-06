@@ -135,9 +135,9 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 try {
                     int numTransaction = Integer.parseInt(currentTransactions.getText().toString());
-                    if (numTransaction < 1) {
+                    if (numTransaction < 0) {
                         isValid = false;
-                        currentTransactions.setError("cannot be less than 1");
+                        currentTransactions.setError("cannot be less than 0");
                     }
                 } catch (NumberFormatException e) {
                     currentTransactions.setError("wrong number");
@@ -249,6 +249,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
             cardRespository.update(card);
         } else {
             card = new Card(cardName, numTransactions, dayOfCycle);
+            card.setCurrentNumTransactions(numCurrentTransactions);
             cardRespository.insert(card);
         }
         Snackbar.make(findViewById(R.id.addCardLayout), "Card saved!", Snackbar.LENGTH_LONG).show();

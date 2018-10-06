@@ -1,17 +1,12 @@
 package pl.jkrajniak.cardtracker;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -65,12 +60,14 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
     public class CardViewHolder extends RecyclerView.ViewHolder {
         private Button cardName;
         private TextView tvNumTransaction;
+        private TextView tvBaseLine;
 
         public CardViewHolder(View itemView) {
             super(itemView);
 
             cardName = itemView.findViewById(R.id.cardNameBtn);
-            tvNumTransaction = itemView.findViewById(R.id.numTrasactions);
+            tvNumTransaction = itemView.findViewById(R.id.numTransactions);
+            tvBaseLine = itemView.findViewById(R.id.baseLine);
         }
 
         void bind(final Card card) {
@@ -78,11 +75,13 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
                 String extraText = "";
                 cardName.setText(card.getName());
                 if (card.getCurrentNumTransactions() >= card.getRequiredNumTransactions()) {
-                    extraText = " fulfilled";
+                    extraText = " ✔";
                 }
-                tvNumTransaction.setText(
-                        card.getCurrentNumTransactions() + "/" + card.getRequiredNumTransactions()
-                                + " (left " + card.getDaysLeft() + " days)" + extraText);
+                tvNumTransaction.setText(Integer.toString(card.getCurrentNumTransactions()));
+                tvBaseLine.setText(
+                        "required: " + card.getRequiredNumTransactions() +
+                                " (" + card.getDaysLeft() + " days left)" +
+                                extraText);
             }
         }
     }

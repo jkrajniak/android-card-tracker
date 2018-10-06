@@ -21,6 +21,9 @@ public interface DaoCard {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(Card card);
 
+    @Insert
+    void saveHistory(CardHistory cardHistory);
+
     @Update
     void updates(Card... cards);
 
@@ -35,4 +38,7 @@ public interface DaoCard {
 
     @Query("SELECT * FROM card WHERE uid = :id")
     Card getCardInstance(int id);
+
+    @Query("SELECT * FROM card")
+    List<Card> getAllCards();
 }

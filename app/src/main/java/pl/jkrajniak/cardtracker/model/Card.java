@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -28,11 +29,15 @@ public class Card implements Serializable {
     @ColumnInfo(name="cycleStartsOnDay")
     private int cycleStartsOnDay = 1;
 
+    @ColumnInfo(name="updated")
+    private boolean updated = false;
+
     @Ignore
     public Card(String name, int numTransaction, int cycleStartsOnDay) {
         this.name = name;
         this.requiredNumTransactions = numTransaction;
         this.cycleStartsOnDay = cycleStartsOnDay;
+        this.updated = false;
     }
 
     public Card() {
@@ -40,6 +45,7 @@ public class Card implements Serializable {
         this.requiredNumTransactions = 0;
         this.cycleStartsOnDay = 1;
         this.currentNumTransactions = 0;
+        this.updated = false;
     }
 
     public int getUid() {
@@ -56,6 +62,14 @@ public class Card implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
     }
 
     public int getRequiredNumTransactions() {
@@ -85,9 +99,12 @@ public class Card implements Serializable {
         Calendar today = Calendar.getInstance();
         Calendar thatDay = Calendar.getInstance();
         thatDay.set(Calendar.DAY_OF_MONTH, cycleStartsOnDay);
-        thatDay.set(Calendar.MONTH, (today.get(Calendar.MONTH)+1) % 12);
+        if (today.get(Calendar.DAY_OF_MONTH) >= cycleStartsOnDay) {
+            thatDay.set(Calendar.MONTH, (today.get(Calendar.MONTH) + 1) % 12);
+        } else {
+            thatDay.set(Calendar.MONTH, today.get(Calendar.MONTH));
+        }
         long diffMillis = thatDay.getTimeInMillis() - today.getTimeInMillis();
-        long diffDays = diffMillis / (24 * 60 * 60 * 1000);
-        return diffDays;
+        return diffMillis / (24 * 60 * 60 * 1000);
     }
 }

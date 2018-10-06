@@ -1,35 +1,36 @@
 package pl.jkrajniak.cardtracker;
 
+import android.Manifest;
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 
+import pl.jkrajniak.cardtracker.model.AppDatabase;
 import pl.jkrajniak.cardtracker.model.Card;
-import pl.jkrajniak.cardtracker.model.CardRespository;
 import pl.jkrajniak.cardtracker.model.CardViewModel;
 
 public class MainActivity extends AppCompatActivity implements CardsAdapter.OnItemClickListener {
     private CardsAdapter cardsAdapter;
     private CardViewModel cardViewModel;
-
-    public static final int NEW_CARD_ACTIVITY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +59,21 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
         recyclerView.addItemDecoration(itemDecorator);
 
         setSupportActionBar(findViewById(R.id.my_toolbar));
+        cardViewModel.updateCards();
+    }
+
+    private void resetCards() {
+        List<Card> cards = cardViewModel.getAllCards().getValue();
+        for (Card card: cards) {
+            Log.i("Cards", card.toString());
+        }
     }
 
     @Override
     public void onItemClick(View view, int position) {
         Card card = cardViewModel.getCard(position);
         cardViewModel.addTransaction(card);
+        Toast.makeText(view.getContext(), "Transaction added", Toast.LENGTH_SHORT).show();
     }
 
     @Override

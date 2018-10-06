@@ -39,4 +39,8 @@ public class CardViewModel extends AndroidViewModel{
             cardRespository.update(card);
 //        }
     }
+
+    public void updateCards() {
+        cardRespository.updateCardsCounter();
+    }
 }

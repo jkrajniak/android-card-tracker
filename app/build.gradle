@@ -6,8 +6,8 @@ android {
         applicationId "pl.jkrajniak.cardtracker"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 7
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // Write out the current schema of Room
     }
