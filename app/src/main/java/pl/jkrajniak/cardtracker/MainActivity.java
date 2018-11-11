@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
             case R.id.action_add_card:
                 startActivity(new Intent(this, AddCardActivity.class));
                 return true;
+            case R.id.action_history:
+                startActivity(new Intent(this, HistoryActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

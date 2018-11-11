@@ -6,8 +6,8 @@ android {
         applicationId "pl.jkrajniak.cardtracker"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.0.5"
+        versionCode 8
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // Write out the current schema of Room
     }
@@ -17,7 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
