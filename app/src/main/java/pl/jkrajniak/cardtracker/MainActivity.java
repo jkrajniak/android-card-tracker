@@ -1,30 +1,23 @@
 package pl.jkrajniak.cardtracker;
 
-import android.Manifest;
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.List;
 
-import pl.jkrajniak.cardtracker.model.AppDatabase;
 import pl.jkrajniak.cardtracker.model.Card;
 import pl.jkrajniak.cardtracker.model.CardViewModel;
 
@@ -36,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent addCardIntent = new Intent(MainActivity.this, AddCardActivity.class);
 
         cardsAdapter = new CardsAdapter(this, this);
         cardViewModel = ViewModelProviders.of(this).get(CardViewModel.class);
@@ -60,13 +51,11 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
 
         setSupportActionBar(findViewById(R.id.my_toolbar));
         cardViewModel.updateCards();
-    }
 
-    private void resetCards() {
-        List<Card> cards = cardViewModel.getAllCards().getValue();
-        for (Card card: cards) {
-            Log.i("Cards", card.toString());
-        }
+        NotificationScheduler.setReminder(this, AlarmReceiver.class, 9, 0);
+
+//        CardRespository cardRespository = new CardRespository(getApplication());
+//        cardRespository.showNotifications(this);
     }
 
     @Override
@@ -96,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements CardsAdapter.OnIt
             case R.id.action_add_card:
                 startActivity(new Intent(this, AddCardActivity.class));
                 return true;
-            case R.id.action_history:
-                startActivity(new Intent(this, HistoryActivity.class));
-                return true;
+//            case R.id.action_history:
+//                startActivity(new Intent(this, HistoryActivity.class));
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

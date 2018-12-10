@@ -5,7 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -101,6 +100,9 @@ public class Card implements Serializable {
         thatDay.set(Calendar.DAY_OF_MONTH, cycleStartsOnDay);
         if (today.get(Calendar.DAY_OF_MONTH) >= cycleStartsOnDay) {
             thatDay.set(Calendar.MONTH, (today.get(Calendar.MONTH) + 1) % 12);
+            if (today.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                thatDay.set(Calendar.YEAR, today.get(Calendar.YEAR) + 1);
+            }
         } else {
             thatDay.set(Calendar.MONTH, today.get(Calendar.MONTH));
         }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.jkrajniak.cardtracker">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,11 +22,24 @@
             android:name=".AddCardActivity"
             android:label="@string/title_activity_add_card"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SettingsActivity" android:label="@string/settings"
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HistoryActivity"
+        <activity
+            android:name=".HistoryActivity"
             android:label="@string/title_history"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".NotifyService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

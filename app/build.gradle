@@ -6,9 +6,15 @@ android {
         applicationId "pl.jkrajniak.cardtracker"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 8
-        versionName "1.1.0"
+        versionCode 13
+        versionName "1.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
         // Write out the current schema of Room
     }
     buildTypes {
@@ -22,7 +28,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    sourceSets {
+        androidTest.assets.srcDirs +=
+                files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {
@@ -45,6 +54,5 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     // use kapt for Kotlin
 
-//    androidTestImplementation
-//    "android.arch.persistence.room:testing:$rootProject.roomVersion"
+    androidTestImplementation "android.arch.persistence.room:testing:$room_version"
 }

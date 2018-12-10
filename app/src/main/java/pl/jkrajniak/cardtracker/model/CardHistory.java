@@ -17,17 +17,19 @@ public class CardHistory {
     public int numTransactions;
 
     @ColumnInfo(name = "timestamp")
-    public int timestamp;
+    public long timestamp;
 
     @Ignore
-    public CardHistory(int cardId, int numTransactions) {
+    public CardHistory(int cardId, int numTransactions, long timestamp) {
         this.cardId = cardId;
         this.numTransactions = numTransactions;
+        this.timestamp = timestamp;
     }
 
     public CardHistory() {
         this.cardId = 0;
         this.numTransactions = 0;
+        this.timestamp = 0;
     }
 
     public int getUid() {
@@ -52,5 +54,13 @@ public class CardHistory {
 
     public void setNumTransactions(int numTransactions) {
         this.numTransactions = numTransactions;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long s) {
+        timestamp = s;
     }
 }
